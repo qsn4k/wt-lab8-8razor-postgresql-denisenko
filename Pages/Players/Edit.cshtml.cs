@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using wt_lab8_8razor_postgresql_denisenko.Data;
 using wt_lab8_8razor_postgresql_denisenko.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace wt_lab8_8razor_postgresql_denisenko.Pages.Players;
 
