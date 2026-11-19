@@ -5,7 +5,7 @@ namespace wt_lab8_8razor_postgresql_denisenko.Data;
 
 /// <summary>
 /// Позволяет выполнять команды dotnet ef без запуска веб-сервера.
-/// Строка подключения берётся из конфигурации или переменной окружения.
+/// Строка подключения берётся из DATABASE_URL или ConnectionStrings:DefaultConnection.
 /// </summary>
 public sealed class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
@@ -18,9 +18,7 @@ public sealed class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbConte
             .AddEnvironmentVariables()
             .Build();
 
-        var connectionString = configuration.GetConnectionString("DefaultConnection")
-            ?? "Host=localhost;Port=5432;Database=wt_lab8;Username=postgres;Password=CHANGE_ME";
-
+        var connectionString = DatabaseConnectionString.Resolve(configuration);
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseNpgsql(connectionString)
             .Options;

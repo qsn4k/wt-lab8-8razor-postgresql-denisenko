@@ -3,7 +3,7 @@ using wt_lab8_8razor_postgresql_denisenko.Models;
 
 namespace wt_lab8_8razor_postgresql_denisenko.Data;
 
-/// <summary>Контекст Entity Framework Core для работы с PostgreSQL.</summary>
+/// <summary>Контекст Entity Framework Core для общей базы данных ЛР7 и ЛР8.</summary>
 public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
     public DbSet<Player> Players => Set<Player>();
@@ -13,26 +13,27 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
     {
         base.OnModelCreating(modelBuilder);
 
+        // Таблица Players уже создана миграциями ЛР7.
+        // Здесь только описываем её существующую структуру, не создаём повторные seed-записи.
         modelBuilder.Entity<Player>(entity =>
         {
             entity.ToTable("Players");
             entity.HasKey(x => x.Id);
             entity.Property(x => x.Nickname).HasMaxLength(30).IsRequired();
             entity.Property(x => x.Game).HasMaxLength(60).IsRequired();
-            entity.Property(x => x.Description).HasMaxLength(500).HasDefaultValue(string.Empty);
-            entity.Property(x => x.CreatedAt).HasColumnType("timestamp without time zone");
-            entity.HasIndex(x => x.Nickname);
-            entity.HasData(
-                new Player { Id = 1, Nickname = "CyberWolf", Game = "Counter-Strike 2", Rating = 1500, Wins = 24, Losses = 12, CreatedAt = new DateTime(2026, 9, 1) },
-                new Player { Id = 2, Nickname = "ShadowFox", Game = "Counter-Strike 2", Rating = 1750, Wins = 31, Losses = 10, CreatedAt = new DateTime(2026, 9, 2) },
-                new Player { Id = 3, Nickname = "NeoMaster", Game = "Dota 2", Rating = 2100, Wins = 38, Losses = 9, CreatedAt = new DateTime(2026, 9, 3) },
-                new Player { Id = 4, Nickname = "DarkKnight", Game = "Dota 2", Rating = 1850, Wins = 29, Losses = 15, CreatedAt = new DateTime(2026, 9, 4) },
-                new Player { Id = 5, Nickname = "PixelHunter", Game = "Valorant", Rating = 1600, Wins = 21, Losses = 18, CreatedAt = new DateTime(2026, 9, 5) },
-                new Player { Id = 6, Nickname = "IceStorm", Game = "Valorant", Rating = 1900, Wins = 34, Losses = 11, CreatedAt = new DateTime(2026, 9, 6) },
-                new Player { Id = 7, Nickname = "RedDragon", Game = "Counter-Strike 2", Rating = 1250, Wins = 15, Losses = 20, CreatedAt = new DateTime(2026, 9, 7) }
-            );
+            entity.Property(x => x.TeamName)
+                .HasMaxLength(60)
+                .HasDefaultValue("Без команды")
+                .IsRequired();
+            entity.Property(x => x.Description)
+                .HasMaxLength(500)
+                .HasDefaultValue(string.Empty)
+                .IsRequired();
+            // В ЛР7 CreatedAt имеет тип PostgreSQL timestamp with time zone.
+            entity.Property(x => x.CreatedAt).HasColumnType("timestamp with time zone");
         });
 
+        // Таблица Tournaments — новая часть ЛР8, её создаёт миграция CreateTournaments.
         modelBuilder.Entity<Tournament>(entity =>
         {
             entity.ToTable("Tournaments");
@@ -42,6 +43,7 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options) : DbCon
             entity.Property(x => x.Status).HasMaxLength(30).IsRequired();
             entity.Property(x => x.PrizePool).HasPrecision(12, 2);
             entity.Property(x => x.StartDate).HasColumnType("timestamp without time zone");
+
             entity.HasData(
                 new Tournament { Id = 1, Name = "Cyber Cup: Autumn Split", Game = "Counter-Strike 2", StartDate = new DateTime(2026, 10, 24, 16, 0, 0), CurrentPlayers = 18, MaxPlayers = 32, PrizePool = 500m, Status = "Предстоящий" },
                 new Tournament { Id = 2, Name = "Dota Arena: Season 4", Game = "Dota 2", StartDate = new DateTime(2026, 10, 26, 18, 0, 0), CurrentPlayers = 12, MaxPlayers = 16, PrizePool = 350m, Status = "Предстоящий" },

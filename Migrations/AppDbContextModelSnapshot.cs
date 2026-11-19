@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using wt_lab8_8razor_postgresql_denisenko.Data;
 using wt_lab8_8razor_postgresql_denisenko.Models;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -23,25 +23,16 @@ partial class AppDbContextModelSnapshot : ModelSnapshot
         modelBuilder.Entity<Player>(b =>
         {
             b.Property<int>("Id").ValueGeneratedOnAdd().HasColumnType("integer");
-            b.Property<DateTime>("CreatedAt").HasColumnType("timestamp without time zone");
-            b.Property<string>("Description").IsRequired().HasMaxLength(500).HasDefaultValue("").HasColumnType("character varying(500)");
+            b.Property<DateTime>("CreatedAt").HasColumnType("timestamp with time zone");
+            b.Property<string>("Description").IsRequired().ValueGeneratedOnAdd().HasMaxLength(500).HasDefaultValue("").HasColumnType("character varying(500)");
             b.Property<string>("Game").IsRequired().HasMaxLength(60).HasColumnType("character varying(60)");
             b.Property<string>("Nickname").IsRequired().HasMaxLength(30).HasColumnType("character varying(30)");
             b.Property<int>("Losses").HasColumnType("integer");
             b.Property<int>("Rating").HasColumnType("integer");
+            b.Property<string>("TeamName").IsRequired().ValueGeneratedOnAdd().HasMaxLength(60).HasDefaultValue("Без команды").HasColumnType("character varying(60)");
             b.Property<int>("Wins").HasColumnType("integer");
             b.HasKey("Id");
-            b.HasIndex("Nickname");
             b.ToTable("Players");
-            b.HasData(
-                new { Id = 1, CreatedAt = new DateTime(2026, 9, 1, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Counter-Strike 2", Losses = 12, Nickname = "CyberWolf", Rating = 1500, Wins = 24 },
-                new { Id = 2, CreatedAt = new DateTime(2026, 9, 2, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Counter-Strike 2", Losses = 10, Nickname = "ShadowFox", Rating = 1750, Wins = 31 },
-                new { Id = 3, CreatedAt = new DateTime(2026, 9, 3, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Dota 2", Losses = 9, Nickname = "NeoMaster", Rating = 2100, Wins = 38 },
-                new { Id = 4, CreatedAt = new DateTime(2026, 9, 4, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Dota 2", Losses = 15, Nickname = "DarkKnight", Rating = 1850, Wins = 29 },
-                new { Id = 5, CreatedAt = new DateTime(2026, 9, 5, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Valorant", Losses = 18, Nickname = "PixelHunter", Rating = 1600, Wins = 21 },
-                new { Id = 6, CreatedAt = new DateTime(2026, 9, 6, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Valorant", Losses = 11, Nickname = "IceStorm", Rating = 1900, Wins = 34 },
-                new { Id = 7, CreatedAt = new DateTime(2026, 9, 7, 0, 0, 0, DateTimeKind.Unspecified), Description = "", Game = "Counter-Strike 2", Losses = 20, Nickname = "RedDragon", Rating = 1250, Wins = 15 }
-            );
         });
 
         modelBuilder.Entity<Tournament>(b =>

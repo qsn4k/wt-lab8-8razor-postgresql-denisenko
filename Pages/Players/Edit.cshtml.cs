@@ -35,6 +35,7 @@ public class EditModel(AppDbContext context) : PageModel
 
         existing.Nickname = Player.Nickname;
         existing.Game = Player.Game;
+        existing.TeamName = Player.TeamName;
         existing.Rating = Player.Rating;
         existing.Wins = Player.Wins;
         existing.Losses = Player.Losses;

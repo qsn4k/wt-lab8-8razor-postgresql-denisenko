@@ -18,6 +18,10 @@ public class Player
     [Display(Name = "Игра")]
     public string Game { get; set; } = string.Empty;
 
+    [Display(Name = "Команда")]
+    [StringLength(60, ErrorMessage = "Название команды не должно превышать 60 символов.")]
+    public string TeamName { get; set; } = "Без команды";
+
     [Range(0, 5000, ErrorMessage = "Рейтинг должен находиться в диапазоне от 0 до 5000.")]
     [Display(Name = "Рейтинг")]
     public int Rating { get; set; }
@@ -31,7 +35,7 @@ public class Player
     public int Losses { get; set; }
 
     [Display(Name = "Дата регистрации")]
-    public DateTime CreatedAt { get; set; } = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified);
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [StringLength(500, ErrorMessage = "Описание не должно превышать 500 символов.")]
     [Display(Name = "Описание")]

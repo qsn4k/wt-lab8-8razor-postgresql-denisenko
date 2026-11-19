@@ -17,7 +17,7 @@ public class CreateModel(AppDbContext context) : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        Player.CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Unspecified);
+        Player.CreatedAt = DateTime.UtcNow;
         context.Players.Add(Player);
         await context.SaveChangesAsync();
 

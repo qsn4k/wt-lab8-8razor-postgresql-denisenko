@@ -10,7 +10,7 @@
     <section class="detail-panel">
         <div class="detail-hero"><div class="detail-avatar">@Model.Player.Nickname.Substring(0, 1).ToUpperInvariant()</div><div class="detail-identity"><span class="status-badge"><i></i> ПРОФИЛЬ В БАЗЕ</span><h2>@Model.Player.Nickname</h2><p>@Model.Player.Game</p></div><div class="detail-rating"><span>PLAYER RATING</span><strong>@Model.Player.Rating.ToString("N0")</strong><small>из 5 000</small></div></div>
         <div class="detail-metrics"><div><span>ПОБЕДЫ</span><strong class="neon-cyan">@Model.Player.Wins</strong></div><div><span>ПОРАЖЕНИЯ</span><strong class="neon-pink">@Model.Player.Losses</strong></div><div><span>WIN RATE</span><strong>@Model.Player.WinRate.ToString("0.#")%</strong></div><div><span>ID УЧАСТНИКА</span><strong>#@Model.Player.Id.ToString("000")</strong></div></div>
-        <div class="detail-info"><div><span>Игровая дисциплина</span><strong>@Model.Player.Game</strong></div><div><span>Дата регистрации</span><strong>@Model.Player.CreatedAt.ToString("dd.MM.yyyy")</strong></div><div><span>Статус</span><strong class="neon-cyan">Зарегистрирован</strong></div></div>
+        <div class="detail-info"><div><span>Игровая дисциплина</span><strong>@Model.Player.Game</strong></div><div><span>Команда</span><strong>@Model.Player.TeamName</strong></div><div><span>Дата регистрации</span><strong>@Model.Player.CreatedAt.ToString("dd.MM.yyyy")</strong></div><div><span>Статус</span><strong class="neon-cyan">Зарегистрирован</strong></div></div>
         @if (!string.IsNullOrWhiteSpace(Model.Player.Description))
         {
             <div class="detail-info"><div><span>Описание</span><strong>@Model.Player.Description</strong></div></div>

@@ -3,12 +3,7 @@ using wt_lab8_8razor_postgresql_denisenko.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (string.IsNullOrWhiteSpace(connectionString))
-{
-    throw new InvalidOperationException(
-        "Не задана строка подключения DefaultConnection. Укажите ConnectionStrings__DefaultConnection.");
-}
+var connectionString = DatabaseConnectionString.Resolve(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
